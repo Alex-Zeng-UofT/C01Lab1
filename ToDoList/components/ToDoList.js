@@ -25,7 +25,7 @@ const ToDoList = ({ todoList }) => {
         // styles given in handout
         <View style={styles.todoListContainer}>
             {toDos.map((task) => (
-                <View key={task.id}>
+                <View key={task.id} style={styles.todoItem}>
                     <Text>{task.title}</Text>
                     <Button title='Remove' onPress={() => removeToDo(task.id)}/>
                 </View>
