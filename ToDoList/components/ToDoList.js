@@ -6,31 +6,55 @@ import AddTask from './AddTask'
 
 const ToDoList = ({ todoList }) => {
     // set the state variable with intials values being the prop list
-    const [tasks, setTasks] = useState(todoList.map((task) => ({ id: uuidv4(), todo: task})));
+    const [toDos, setToDos] = useState(todoList.map((task) => ({ id: uuidv4(), title: task})));
 
     // remove a todo task by only keeping tasks with different ids
-    const removeTask = (id) => {
-        setTasks(prevTodos => {
+    const removeToDo = (id) => {
+        setToDos(prevTodos => {
             return prevTodos.filter(task => task.id !== id);
         });
     };
 
-    const AddTodo = (task) => {
-        const newTask = {id: uuidv4(), todo: task};
-        setTasks((prevTasks) => [...prevTasks, newTask]);
+    // add a todo the the current list with given newTitle
+    const addToDo = (newTitle) => {
+        const newTask = {id: uuidv4(), title: newTitle};
+        setToDos((prevTasks) => [...prevTasks, newTask]);
     }
 
     return (
-        <View>
-            {tasks.map((task) => (
+        // styles given in handout
+        <View style={styles.todoListContainer}>
+            {toDos.map((task) => (
                 <View key={task.id}>
-                    <Text>{task.todo}</Text>
-                    <Button title='Remove' onPress={() => removeTask(task.id)}/>
+                    <Text>{task.title}</Text>
+                    <Button title='Remove' onPress={() => removeToDo(task.id)}/>
                 </View>
             ))}
-            <AddTask onAddTask={AddTodo}></AddTask>
+            <AddTask onAddTask={addToDo}></AddTask>
         </View>
     );
 };
+
+// set default prop to be empty array
+ToDoList.defaultProps = {
+    todoList: []
+};
+
+// styles provided in handout
+const styles = StyleSheet.create({
+    todoListContainer: {
+      margin: 10,
+    },
+    todoItem: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      padding: 10,
+      marginVertical: 5,
+      borderColor: 'gray',
+      borderWidth: 1,
+      borderRadius: 5,
+    },
+});
 
 export default ToDoList;
